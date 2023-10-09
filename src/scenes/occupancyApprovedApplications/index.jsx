@@ -47,62 +47,62 @@ const OccupancyApprovedApplications = () => {
     },
   ];
 
-  const filterData = () => {
-    const filtered = approvedApplication.filter((item) =>
-      Object.values(item).some((value) =>
-        String(value).toLowerCase().includes(searchValue.toLowerCase())
-      )
-    );
-    setFilteredData(filtered);
+const filterData = () => {
+  const filtered = approvedApplication.filter((item) =>
+    Object.values(item).some((value) =>
+      String(value).toLowerCase().includes(searchValue.toLowerCase())
+    )
+  );
+  setFilteredData(filtered);
+};
+
+const fetchData = () => {
+  fetch("http://localhost:8080/approved/getAllApprovedApplication")
+    .then((res) => res.json())
+    .then((result) => {
+      setApprovedApplication(result);
+      setFilteredData(result);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
   };
 
-  const fetchData = () => {
-    fetch("http://localhost:8080/approved/getAllApprovedApplication")
-      .then((res) => res.json())
-      .then((result) => {
-        setApprovedApplication(result);
-        setFilteredData(result);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  };
-
-  useEffect(() => {
+useEffect(() => {
    
-    fetch("http://localhost:8080/approved/getAllApprovedApplication")
-      .then((res) => res.json()) 
-      .then((result) => {
-        setFilteredData(result);
-        setApprovedApplication(result);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+  fetch("http://localhost:8080/approved/getAllApprovedApplication")
+    .then((res) => res.json()) 
+    .then((result) => {
+      setFilteredData(result);
+      setApprovedApplication(result);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
   }, []);
-  
-  const handleSearchInputChange = (e) => {
-    setSearchValue(e.target.value);
-  };
 
-  const handleSearchButtonClick = () => {
-    filterData();
-  };
+const handleSearchInputChange = (e) => {
+  setSearchValue(e.target.value);
+};
 
-  const handleRefreshButtonClick = () => {
-    fetchData();
-    setSearchValue("");
-    setFilteredData(approvedApplication);
-  };
-  const handleView = (item) => {
-    setSelectedItem(item);
-    setIsViewDialogOpen(true);
-  };
+const handleSearchButtonClick = () => {
+  filterData();
+};
 
-  const handleCloseViewDialog = () => {
-    setIsViewDialogOpen(false);
-  };
+const handleRefreshButtonClick = () => {
+  fetchData();
+  setSearchValue("");
+  setFilteredData(approvedApplication);
+};
 
+const handleView = (item) => {
+  setSelectedItem(item);
+  setIsViewDialogOpen(true);
+};
+
+const handleCloseViewDialog = () => {
+  setIsViewDialogOpen(false);
+};
 
 /*
   useEffect(() => {
